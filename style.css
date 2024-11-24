@@ -1,130 +1,93 @@
+/* General Styling for Both Monitors */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden; /* Prevent scrollbars */
+  font-family: Arial, sans-serif;
 }
 
-#dashboard {
-  position: relative; /* For absolute positioning of child elements */
-  width: 2560px;
-  height: 100vh; /* Full screen height */
+/* Monitor 1 Background */
+#monitor1 {
+  background: url('LEFT SCREEN.png') no-repeat center center fixed;
+  background-size: cover; /* Ensure full coverage */
+  color: #ffffff; /* White text for readability */
 }
 
-/* General card styling */
+/* Monitor 2 Background */
+#monitor2 {
+  background: url('RIGHT SCREEN.png') no-repeat center center fixed;
+  background-size: cover; /* Ensure full coverage */
+  color: #ffffff; /* White text for readability */
+}
+
+/* Card Styling */
 .card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  position: absolute; /* Keep absolute positioning for precise layout */
+  width: 208px; /* Fixed card width */
+  height: 100vh; /* Full vertical height for most cards */
+  background: rgba(255, 255, 255); /* Semi-transparent white background */
+  border-radius: 12px; /* Rounded corners */
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  position: absolute; /* Allow explicit positioning */
- 
-  height: 100vh;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add soft shadow */
+  text-align: left;
+  color: #10313A; /* Dark text color */
 }
 
-/* Individual card positions and sizes */
-#R3-channel1 {
-  top: 0px;
-  left: 64px;
-  width: 208px;
+/* Card Headers and Text */
+.card h3 {
+  font-size: 1.5rem; /* Larger header size */
+  font-weight: bold;
+  color: #10313A; /* Midnight (primary color) */
+  margin-bottom: 10px;
 }
 
-#R3-channel2 {
-  top: 0px;
-  left: 365px;
-  width: 208px;
+.card h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #225262; /* Denim (secondary color) */
+  margin-bottom: 15px;
 }
 
-#R4-channel1 {
-  top: 0px;
-  left: 828px;
-  width: 208px;
+.card p {
+  font-size: 1rem;
+  color: #6B7280; /* Neutral gray */
+  margin: 8px 0;
 }
 
-#R4-channel2 {
-  top: 0px;
-  left: 1124px;
-  width: 208px;
+.card p strong {
+  color: #04473F; /* Pine (accent color) */
 }
 
-#R5-channel1 {
-  top: 0px;
-  left: 1591px;
-  width: 208px;
+/* Specific Card Positions for Monitor 1 */
+#R3-channel1 { top: 0px; left: 64px; }
+#R3-channel2 { top: 0px; left: 365px; }
+#R4-channel1 { top: 0px; left: 828px; }
+#R4-channel2 { top: 0px; left: 1124px; }
+#R5-channel1 { top: 0px; left: 1591px; }
+#R5-channel2 { top: 0px; left: 1887px; }
+#R6-channel1 { top: 0px; left: 2352px; }
+
+/* Specific Card Positions for Monitor 2 */
+#R6-channel2 { top: 0px; left: 54px; }
+#R1-channel1 { top: 0px; left: 1241px; }
+#R1-channel2 { top: 0px; left: 1536px; }
+#R2-channel1 { top: 0px; left: 497px; }
+#R2-channel2 { top: 0px; left: 795px; }
+#R7-channel1 { top: 670px; left: 1988px; height: 50vh; }
+#R7-channel2 { top: 670px; left: 2289px; height: 50vh; }
+#R8-channel1 { top: 0px; left: 1988px; height: 48vh; }
+#R8-channel2 { top: 0px; left: 2289px; height: 48vh; }
+
+/* Icon Styling */
+.icon {
+  width: 24px; /* Set icon size */
+  height: 24px;
+  vertical-align: middle; /* Align with text */
+  margin-left: 8px; /* Add spacing between icon and text */
 }
 
-#R5-channel2 {
-  top: 0px;
-  left: 1887px;
-  width: 208px;
+.no-link-placeholder {
+  width: 50%; /* Placeholder takes full width of the card */
+  height: auto;
+  margin-top: 10px;
 }
-
-#R6-channel1 {
-  top: 0px;
-  left: 2352px;
-  width: 208px;
-}
-
-
-
-#R6-channel2 {
-  top: 0px;
-  left: 54px;
-  width: 208px;
-}
-
-#R1-channel1 {
-  top: 0px;
-  left: 1241px;
-  width: 208px;
-}
-
-#R1-channel2 {
-  top: 0px;
-  left: 1536px;
-  width: 208px;
-}
-
-#R2-channel1 {
-  top: 0px;
-  left: 497px;
-  width: 208px;
-}
-
-#R2-channel2 {
-  top: 0px;
-  left: 795px;
-  width: 208px;
-}
-
-#R7-channel1 {
-  top: 540px;
-  left: 1988px;
-  width: 208px;
-  height: 50vh;
-}
-
-#R7-channel2 {
-  top: 540px;
-  left: 2289px;
-  width: 208px;
-  height: 50vh;
-}
-
-#R8-channel1 {
-  top: 0px;
-  left: 1988px;
-  width: 208px;
-  height: 50vh;
-}
-
-#R8-channel2 {
-  top: 0px;
-  left: 2289px;
-  width: 208px;
-  height: 50vh;
-}
-
