@@ -20,17 +20,31 @@ body {
   color: #ffffff; /* White text for readability */
 }
 
-/* Card Styling */
 .card {
-  position: absolute; /* Keep absolute positioning for precise layout */
-  width: 208px; /* Fixed card width */
-  height: 100vh; /* Full vertical height for most cards */
-  background: rgba(255, 255, 255); /* Semi-transparent white background */
-  border-radius: 12px; /* Rounded corners */
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add soft shadow */
-  text-align: left;
-  color: #10313A; /* Dark text color */
+  position: absolute;
+  width: 208px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Fallback for transparency */
+  background-blend-mode: overlay; /* Blend image with fallback color */
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #ffffff; /* White text for readability */
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow */
+}
+
+.icon {
+  width: 24px; /* Icon size */
+  height: 24px;
+  vertical-align: middle; /* Align with text */
+  margin-left: 8px; /* Add spacing between text and icon */
+}
+
+.no-link-placeholder {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
 }
 
 /* Card Headers and Text */
@@ -91,3 +105,6 @@ body {
   height: auto;
   margin-top: 10px;
 }
+
+
+
