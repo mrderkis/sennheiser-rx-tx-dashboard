@@ -20,38 +20,171 @@ body {
   color: #ffffff; /* White text for readability */
 }
 
+/* General Card Styling */
 .card {
   position: absolute;
   width: 208px;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Fallback for transparency */
-  background-blend-mode: overlay; /* Blend image with fallback color */
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  background-size: cover; /* Ensure the image fully covers the card */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent tiling */
   border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  color: #ffffff; /* White text for readability */
+  color: #ffffff;
+  font-family: Arial, sans-serif;
   font-size: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  text-align: left;
 }
 
-.icon {
-  width: 24px; /* Icon size */
-  height: 24px;
+
+/* Header Section Styling */
+.header {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.name {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.channel-header {
+  margin: 0;
+  font-size: 1rem;
+  
+}
+
+/* Details Box Styling */
+.details-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000000; /* Fully opaque black */
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 0 0 12px 12px;
+  text-align: left;
+}
+
+.details-box p {
+  margin: 4px 0;
+}
+
+/* Mute/Unmute Icon Styling */
+.mute-icon {
+  width: 16px; /* Small icon size */
+  height: 16px;
   vertical-align: middle; /* Align with text */
   margin-left: 8px; /* Add spacing between text and icon */
 }
 
-.no-link-placeholder {
-  width: 100%;
-  height: auto;
-  margin-top: 10px;
+/* No Link Icon Styling */
+.no-link-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%; /* Scaled down size */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 150px; /* Prevent it from getting too large */
+  max-height: 150px; /* Prevent excessive height */
 }
 
-/* Card Headers and Text */
+/* Specific Card Positions for Monitor 1 */
+#R3-channel1 {
+  top: 0px;
+  left: 64px;
+}
+
+#R3-channel2 {
+  top: 0px;
+  left: 365px;
+}
+
+#R4-channel1 {
+  top: 0px;
+  left: 828px;
+}
+
+#R4-channel2 {
+  top: 0px;
+  left: 1124px;
+}
+
+#R5-channel1 {
+  top: 0px;
+  left: 1591px;
+}
+
+#R5-channel2 {
+  top: 0px;
+  left: 1887px;
+}
+
+#R6-channel1 {
+  top: 0px;
+  left: 2352px;
+}
+
+/* Specific Card Positions for Monitor 2 */
+#R6-channel2 {
+  top: 0px;
+  left: 54px;
+}
+
+#R1-channel1 {
+  top: 0px;
+  left: 1241px;
+}
+
+#R1-channel2 {
+  top: 0px;
+  left: 1536px;
+}
+
+#R2-channel1 {
+  top: 0px;
+  left: 497px;
+}
+
+#R2-channel2 {
+  top: 0px;
+  left: 795px;
+}
+
+#R7-channel1 {
+  top: 670px;
+  left: 1988px;
+  height: 50vh;
+}
+
+#R7-channel2 {
+  top: 670px;
+  left: 2289px;
+  height: 50vh;
+}
+
+#R8-channel1 {
+  top: 0px;
+  left: 1988px;
+  height: 48vh;
+}
+
+#R8-channel2 {
+  top: 0px;
+  left: 2289px;
+  height: 48vh;
+}
+
+/* Adjusted Card Headers and Text Styling */
 .card h3 {
   font-size: 1.5rem; /* Larger header size */
   font-weight: bold;
-  color: #10313A; /* Midnight (primary color) */
+  color: #ffffff; /* Midnight (primary color) */
   margin-bottom: 10px;
 }
 
@@ -71,40 +204,3 @@ body {
 .card p strong {
   color: #04473F; /* Pine (accent color) */
 }
-
-/* Specific Card Positions for Monitor 1 */
-#R3-channel1 { top: 0px; left: 64px; }
-#R3-channel2 { top: 0px; left: 365px; }
-#R4-channel1 { top: 0px; left: 828px; }
-#R4-channel2 { top: 0px; left: 1124px; }
-#R5-channel1 { top: 0px; left: 1591px; }
-#R5-channel2 { top: 0px; left: 1887px; }
-#R6-channel1 { top: 0px; left: 2352px; }
-
-/* Specific Card Positions for Monitor 2 */
-#R6-channel2 { top: 0px; left: 54px; }
-#R1-channel1 { top: 0px; left: 1241px; }
-#R1-channel2 { top: 0px; left: 1536px; }
-#R2-channel1 { top: 0px; left: 497px; }
-#R2-channel2 { top: 0px; left: 795px; }
-#R7-channel1 { top: 670px; left: 1988px; height: 50vh; }
-#R7-channel2 { top: 670px; left: 2289px; height: 50vh; }
-#R8-channel1 { top: 0px; left: 1988px; height: 48vh; }
-#R8-channel2 { top: 0px; left: 2289px; height: 48vh; }
-
-/* Icon Styling */
-.icon {
-  width: 24px; /* Set icon size */
-  height: 24px;
-  vertical-align: middle; /* Align with text */
-  margin-left: 8px; /* Add spacing between icon and text */
-}
-
-.no-link-placeholder {
-  width: 50%; /* Placeholder takes full width of the card */
-  height: auto;
-  margin-top: 10px;
-}
-
-
-

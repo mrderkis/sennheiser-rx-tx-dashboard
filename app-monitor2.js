@@ -9,7 +9,7 @@ socket.onmessage = (event) => {
   }
 };
 
-const TESTING_MODE = false; // Enable testing mode for fake data
+const TESTING_MODE = true; // Enable testing mode for fake data
 
 function updateDashboard(data) {
   const channelMapping = {
@@ -24,13 +24,19 @@ function updateDashboard(data) {
     "R8-channel2": "CHANNEL 30",
   };
 
+  function formatFrequency(frequency) {
+    if (!frequency || isNaN(frequency)) return "N/A"; // Handle invalid or missing data
+    return `${(frequency / 1000).toFixed(3)} MHz`;
+  }
+  
+
   Object.entries(data).forEach(([receiver, channels]) => {
     Object.entries(channels).forEach(([channel, info]) => {
       const cardId = `${receiver}-${channel}`;
       const card = document.getElementById(cardId);
 
       if (card) {
-        const channelHeader = channelMapping[cardId] || "UNKNOWN CHANNEL";
+        const channelHeader = channelMapping[cardId] || "Unknown Channel";
 
         // Determine mute/unmute icon
         const muteIcon = info.mute === "Muted" ? "MUTE.png" : "UNMUTE.png";
@@ -40,42 +46,35 @@ function updateDashboard(data) {
           ? `url('images/${info.name.replace(/ /g, "_")}.png')`
           : "none";
 
-        // Apply the background image to the card
+        // Apply the background image
         card.style.backgroundImage = backgroundImage;
-        card.style.backgroundSize = "cover";
-        card.style.backgroundPosition = "center";
-        card.style.backgroundBlendMode = "overlay"; // Blend with fallback
-        card.style.color = "#ffffff"; // Ensure text is readable
 
         // Replace card content dynamically
         card.innerHTML = `
-          <h1>
-            <strong>${info.name || "N/A"}</strong>
-            <img src="${muteIcon}" alt="${info.mute}" class="icon">
-          </h1>
-          <h3>${channelHeader}</h3>
-          <p>${receiver} - ${channel}</p>
-          <p><strong>Mute:</strong> ${info.mute || "N/A"}</p>
-          <p><strong>Frequency:</strong> ${info.frequency || "N/A"} MHz</p>
-          <p><strong>Gain:</strong> ${info.gain || "N/A"} dB</p>
+          <div class="header">
+            <h1 class="name">
+              ${info.name || "N/A"}
+              <img src="${muteIcon}" alt="${info.mute}" class="mute-icon">
+            </h1>
+            <h3 class="channel-header">${channelHeader}</h3>
+          </div>
+          ${
+            info.warnings === "NoLink"
+              ? `<img src="NO_LINK.png" alt="No Link" class="no-link-icon">`
+              : ""
+          }
+          <div class="details-box">
+            <p>${receiver} - ${channel}</p>
+            <p>${formatFrequency(info.frequency)}</p>
+            <p>${info.gain || "N/A"} dB</p>
+            <p>${info.mute || "N/A"}</p>
+          </div>
         `;
-
-        // Replace content with "No Link" icon if warnings are "NoLink"
-        if (info.warnings === "NoLink") {
-          card.innerHTML += `
-            <img src="NO_LINK.png" alt="No Link" class="no-link-placeholder">
-          `;
-        } else {
-          card.innerHTML += `
-            <p><strong>Battery:</strong> ${info.battery || "N/A"}</p>
-            <p><strong>Warnings:</strong> ${info.warnings || "N/A"}</p>
-            <p><strong>Mates:</strong> ${info.mates || "N/A"}</p>
-          `;
-        }
       }
     });
   });
 }
+
 
 // WebSocket data handling
 socket.onmessage = (event) => {
@@ -94,7 +93,7 @@ if (TESTING_MODE) {
   const mockData = {
     R6: {
       channel2: {
-        name: "John Doe",
+        name: "Mel Braddy",
         mute: "Muted",
         frequency: 540800,
         gain: 26,
@@ -105,7 +104,7 @@ if (TESTING_MODE) {
     },
     R1: {
       channel1: {
-        name: "Jane Doe",
+        name: "Alan Reaves",
         mute: "Unmuted",
         frequency: 542200,
         gain: 27,
