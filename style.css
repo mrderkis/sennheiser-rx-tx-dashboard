@@ -23,27 +23,37 @@ body {
 /* General Card Styling */
 .card {
   position: absolute;
-  width: 208px;
+  width: 255px;
   height: 1080px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 15px;
   background-size: cover; /* Ensure the image fully covers the card */
-  background-position: center; /* Center the image */
+  background-position: top; /* Center the image */
   background-repeat: no-repeat; /* Prevent tiling */
   border-radius: 12px;
   color: #ffffff;
   font-family: Arial, sans-serif;
   font-size: 1rem;
   text-align: left;
+  border: 2px solid #ffffff; /* White border */
 }
-
 
 /* Header Section Styling */
 .header {
   text-align: left;
-  margin-bottom: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+  background: #000000; /* Fully opaque black */
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 0 0 12px 12px;
+  font-size: 1.2rem;
+  border: 2px solid #ffffff; /* White border */
 }
 
 .name {
@@ -54,7 +64,7 @@ body {
 .channel-header {
   margin: 0;
   font-size: 1rem;
-  
+  color: #00FFFF;
 }
 
 /* Details Box Styling */
@@ -68,6 +78,8 @@ body {
   padding: 10px;
   border-radius: 0 0 12px 12px;
   text-align: left;
+  font-size: 1.2rem;
+  border: 2px solid #ffffff; /* White border */
 }
 
 .details-box p {
@@ -92,6 +104,51 @@ body {
   height: auto; /* Maintain aspect ratio */
   max-width: 150px; /* Prevent it from getting too large */
   max-height: 150px; /* Prevent excessive height */
+}
+
+/* RSQI Bars */
+.rsqi-bars {
+  display: flex;
+  flex-direction: column-reverse; /* Bars grow from bottom to top */
+  align-items: right;
+  position: absolute;
+  right: 10px; /* Adjust to fit on the left side */
+  bottom: 5px; /* Positioned above the details box */
+  width: 20px; /* Narrow width for the progress bars */
+  gap: 4px; /* Spacing between bars */
+  z-index: 100;
+}
+
+.rsqi-bars .bar {
+  width: 100%; /* Full width of the container */
+  height: 20px; /* Adjust height for each bar */
+  background-color: #333333; /* Very dark grey for unfilled bars */
+  border-radius: 4px;
+}
+
+.rsqi-bars .bar.filled {
+  background-color: #ffffff; /* Bright white for filled bars */
+}
+
+/* Antenna Indicator */
+.antenna-indicator {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  gap: 10px; /* Space between A and B */
+  position: absolute;
+  right: 10px; /* Same alignment as RSQI bars */
+  bottom: 105px; /* Positioned just above the RSQI bars */
+}
+
+.antenna-indicator span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #555555; /* Dark grey for inactive antenna */
+}
+
+.antenna-indicator span.active {
+  color: #ffffff; /* Bright white for active antenna */
 }
 
 /* Specific Card Positions for Monitor 1 */
@@ -196,8 +253,8 @@ body {
 }
 
 .card p {
-  font-size: 1rem;
-  color: #6B7280; /* Neutral gray */
+  font-size: 1.2rem;
+  color: #FFFFFF; /* Neutral gray */
   margin: 8px 0;
 }
 
