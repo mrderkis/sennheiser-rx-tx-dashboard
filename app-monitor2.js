@@ -9,7 +9,7 @@ socket.onmessage = (event) => {
   }
 };
 
-const TESTING_MODE = true; // Enable testing mode for fake data
+const TESTING_MODE = false; // Enable testing mode for fake data
 
 function updateDashboard(data) {
   const channelMapping = {
