@@ -24,7 +24,7 @@ body {
 .card {
   position: absolute;
   width: 255px;
-  height: 1080px;
+  height: 1046px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -75,7 +75,7 @@ body {
   right: 0;
   background: #000000; /* Fully opaque black */
   color: #ffffff;
-  padding: 10px;
+  padding: 2px;
   border-radius: 0 0 12px 12px;
   text-align: left;
   font-size: 1.2rem;
@@ -88,19 +88,19 @@ body {
 
 /* Mute/Unmute Icon Styling */
 .mute-icon {
-  width: 16px; /* Small icon size */
-  height: 16px;
-  vertical-align: middle; /* Align with text */
-  margin-left: 8px; /* Add spacing between text and icon */
+  width: 20px; /* Small icon size */
+  height: 20px;
+  vertical-align: top; /* Align with text */
+  margin-left: 4px; /* Add spacing between text and icon */
 }
 
 /* No Link Icon Styling */
 .no-link-icon {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 115px;
+  right: 5%;
   transform: translate(-50%, -50%);
-  width: 75%; /* Scaled down size */
+  width: 15%; /* Scaled down size */
   height: auto; /* Maintain aspect ratio */
   max-width: 150px; /* Prevent it from getting too large */
   max-height: 150px; /* Prevent excessive height */
@@ -115,7 +115,7 @@ body {
   right: 10px; /* Adjust to fit on the left side */
   bottom: 5px; /* Positioned above the details box */
   width: 20px; /* Narrow width for the progress bars */
-  gap: 4px; /* Spacing between bars */
+  gap: 2px; /* Spacing between bars */
   z-index: 100;
 }
 
@@ -138,11 +138,11 @@ body {
   gap: 10px; /* Space between A and B */
   position: absolute;
   right: 10px; /* Same alignment as RSQI bars */
-  bottom: 105px; /* Positioned just above the RSQI bars */
+  bottom: 94px; /* Positioned just above the RSQI bars */
 }
 
 .antenna-indicator span {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #555555; /* Dark grey for inactive antenna */
 }
@@ -214,27 +214,27 @@ body {
 }
 
 #R7-channel1 {
-  top: 670px;
+  bottom: 0;
   left: 1988px;
-  height: 50vh;
+  height: 500px;
 }
 
 #R7-channel2 {
-  top: 670px;
-  left: 2289px;
-  height: 50vh;
+  bottom: 0;
+  left: 2275px;
+  height: 500px;
 }
 
 #R8-channel1 {
   top: 0px;
   left: 1988px;
-  height: 48vh;
+  height: 500px;
 }
 
 #R8-channel2 {
   top: 0px;
-  left: 2289px;
-  height: 48vh;
+  left: 2275px;
+  height: 500px;
 }
 
 /* Adjusted Card Headers and Text Styling */
@@ -253,7 +253,7 @@ body {
 }
 
 .card p {
-  font-size: 1.2rem;
+  font-size: 16px;
   color: #FFFFFF; /* Neutral gray */
   margin: 8px 0;
 }
