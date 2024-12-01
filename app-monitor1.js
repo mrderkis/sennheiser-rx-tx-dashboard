@@ -9,7 +9,7 @@ socket.onmessage = (event) => {
   }
 };
 
-const TESTING_MODE = true; // Set to false when not testing
+const TESTING_MODE = false; // Set to true when testing with mock data
 
 function updateDashboard(data) {
   const channelMapping = {
@@ -23,8 +23,28 @@ function updateDashboard(data) {
   };
 
   function formatFrequency(frequency) {
-    if (!frequency || isNaN(frequency)) return "N/A"; // Handle invalid or missing data
-    return `${(frequency / 1000).toFixed(3)} MHz`;
+    if (!frequency) return "N/A"; // Handle missing data
+    const parsedFrequency = parseFloat(frequency); // Ensure it's treated as a number
+    if (isNaN(parsedFrequency)) return "N/A"; // Handle invalid data
+
+    // Assume the input is already in MHz
+    return `${parsedFrequency.toFixed(3)} MHz`;
+  }
+
+  function formatBattery(battery, warnings) {
+    if (warnings && warnings.toLowerCase() === "nolink") {
+      return "No Link"; // Display "No Link" if warnings indicate no connection
+    }
+
+    const batteryMinutes = parseInt(battery, 10); // Parse battery value as an integer
+    if (isNaN(batteryMinutes) || batteryMinutes < 0) {
+      return "N/A"; // Handle invalid or missing data
+    }
+
+    const hours = Math.floor(batteryMinutes / 60); // Calculate hours
+    const minutes = batteryMinutes % 60; // Calculate remaining minutes
+
+    return `${hours}:${minutes.toString().padStart(2, "0")}`; // Format as HH:MM
   }
 
   function getRSQILevel(rsqi) {
@@ -35,8 +55,6 @@ function updateDashboard(data) {
     if (rsqiValue >= 25) return 2; // 2 bars for RSQI >= 25%
     return 1; // 1 bar for RSQI > 0%
   }
-  
-  
 
   Object.entries(data).forEach(([receiver, channels]) => {
     Object.entries(channels).forEach(([channel, info]) => {
@@ -45,6 +63,9 @@ function updateDashboard(data) {
 
       if (card) {
         const channelHeader = channelMapping[cardId] || "Unknown Channel";
+
+        // Log the warnings for debugging
+        console.log(`Warnings for ${receiver} - ${channel}:`, info.warnings);
 
         // Determine mute/unmute icon
         const muteIcon = info.mute === "Muted" ? "MUTE.png" : "UNMUTE.png";
@@ -67,7 +88,7 @@ function updateDashboard(data) {
 
         // Get RSQI level
         const rsqiLevel = getRSQILevel(info.rsqi || 0);
-        console.log(rsqiLevel);
+
         // Replace card content dynamically
         card.innerHTML = `
           <div class="header">
@@ -84,32 +105,30 @@ function updateDashboard(data) {
               : ""
           }
           <div class="details-box">
-          <div class="antenna-indicator">
-            <span class="antenna-a ${info.divi == 1 ? "active" : ""}">A</span>
-            <span class="antenna-b ${info.divi == 2 ? "active" : ""}">B</span>
-          </div>
-          <div class="rsqi-bars">
-                  ${[...Array(4)]
-                    .map(
-                      (_, i) =>
-                        `<div class="bar ${
-                          i < rsqiLevel ? "filled" : ""
-                        }"></div>`
-                    )
-                    .join("")}
-                </div>
-              
+            <div class="antenna-indicator">
+              <span class="antenna-a ${info.divi == 1 ? "active" : ""}">A</span>
+              <span class="antenna-b ${info.divi == 2 ? "active" : ""}">B</span>
+            </div>
+            <div class="rsqi-bars">
+              ${[...Array(4)]
+                .map(
+                  (_, i) =>
+                    `<div class="bar ${
+                      i < rsqiLevel ? "filled" : ""
+                    }"></div>`
+                )
+                .join("")}
+            </div>
             <p>${receiver} - ${channel}</p>
             <p>${formatFrequency(info.frequency)}</p>
             <p>${info.gain || "N/A"} dB</p>
-            <p>${info.mute || "N/A"}</p>
+            <p>${formatBattery(info.battery, info.warnings)}</p>
           </div>
         `;
       }
     });
   });
 }
-
 
 // WebSocket data handling
 socket.onmessage = (event) => {
@@ -126,216 +145,33 @@ socket.onmessage = (event) => {
 // Inject mock data for testing
 if (TESTING_MODE) {
   const mockData = {
-    R1: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "470.200 MHz",
-      "gain": 30,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "JOHN",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
+    R5: {
+      channel1: {
+        battery: 698,
+        divi: 1,
+        frequency: 544.000,
+        gain: 27,
+        mates: "N/A",
+        mute: "Muted",
+        name: "CHRISTY",
+        rsqi: 80,
+        txMute: "N/A",
+        warnings: "",
+      },
+      channel2: {
+        battery: "N/A",
+        divi: 2,
+        frequency: 543.400,
+        gain: 33,
+        mates: "N/A",
+        mute: "Unmuted",
+        name: "JACK",
+        rsqi: 40,
+        txMute: "N/A",
+        warnings: "NoLink",
+      },
     },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "544.600 MHz",
-      "gain": 21,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "NA",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R2: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "546.400 MHz",
-      "gain": 27,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "NA",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "541.300 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "ACOUSTIC",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R3: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "550.000 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "LISA",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "549.400 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "NANCY R",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R4: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "541.600 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "ALAN R",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "541.000 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "JAY",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R5: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "1",
-      "frequency": "544.000 MHz",
-      "gain": 27,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "CHRISTY",
-      "rsqi": 70,
-      "txMute": "N/A",
-      "warnings": ""
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "543.400 MHz",
-      "gain": 27,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "JACK",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R6: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "542.800 MHz",
-      "gain": 27,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "GRACE",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "542.200 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "JEFF",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R7: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "548.800 MHz",
-      "gain": 30,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "MANDY",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "548.200 MHz",
-      "gain": 30,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "NANCY S",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
-  R8: {
-    channel1: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "547.600 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "HARLEY",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    },
-    channel2: {
-      "battery": "N/A",
-      "divi": "N/A",
-      "frequency": "547.000 MHz",
-      "gain": 33,
-      "mates": "N/A",
-      "mute": "N/A",
-      "name": "ALLEN",
-      "rsqi": "N/A",
-      "txMute": "N/A",
-      "warnings": "NoLink"
-    }
-  },
   };
 
-  // Manually call updateDashboard with mock data
-  updateDashboard(mockData);
+  updateDashboard(mockData); // Manually call updateDashboard with mock data
 }
