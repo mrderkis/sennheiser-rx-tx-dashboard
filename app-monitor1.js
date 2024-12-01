@@ -9,7 +9,7 @@ socket.onmessage = (event) => {
   }
 };
 
-const TESTING_MODE = false; // Set to false when not testing
+const TESTING_MODE = true; // Set to false when not testing
 
 function updateDashboard(data) {
   const channelMapping = {
