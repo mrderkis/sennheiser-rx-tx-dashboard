@@ -10,19 +10,31 @@ app.use(express.static(path.join(__dirname)));
 
 // Endpoint to get a random photo for a given person
 app.get('/random-photo/:name', (req, res) => {
-  const name = req.params.name.replace(/ /g, "_"); // Replace spaces with underscores
-  const folderPath = path.join(__dirname, 'images', name);
+  const folderName = req.params.name.replace(/ /g, "_"); // Normalize folder names
+  const folderPath = path.join(__dirname, 'images', folderName);
 
   fs.readdir(folderPath, (err, files) => {
     if (err || !files || files.length === 0) {
-      return res.status(404).json({ error: 'No images found' });
+      // console.error(`Error: No images found in folder ${folderPath}`);
+      return res.status(404).json({ error: 'No images found', photos: [] });
     }
 
-    // Pick a random file from the folder
-    const randomPhoto = files[Math.floor(Math.random() * files.length)];
-    res.json({ photoPath: `/images/${name}/${randomPhoto}` });
+    // Filter out non-image files
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+    const photoPaths = files
+      .filter((file) => validExtensions.includes(path.extname(file).toLowerCase()))
+      .map((file) => `/images/${folderName}/${file}`);
+
+    if (photoPaths.length === 0) {
+      console.error(`Error: No valid image files in folder ${folderPath}`);
+      return res.status(404).json({ error: 'No valid image files', photos: [] });
+    }
+
+    res.json({ photos: photoPaths });
   });
 });
+
+
 
 // Monitor routes
 app.get('/monitor1', (req, res) => {
